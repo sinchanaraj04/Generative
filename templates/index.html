@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Generator using GAN</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        /* Zoom effect for images */
+        .zoomable-img {
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .zoomable-img:hover {
+            transform: scale(1.5); /* Zoom effect */
+        }
+        
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #generated-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        #generated-images img {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!--<div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h1 class="logo">Art Generator using GAN</h1>
+            </div>-->
+    <div class="container">
+        <h1>Art Generator using GAN</h1>
+
+        <!-- Generate Image Section -->
+        <section>
+            <h2>Generate New Images</h2>
+            <label for="num-images">Enter the number of images to generate:</label>
+            <input type="number" id="num-images" min="1" value="1" required>
+            <button id="generate-btn">Generate Images</button>
+            <div id="generated-images">
+                <!-- Generated images will appear here -->
+            </div>
+        </section>
+
+        <!-- Upload and Enhance Section -->
+        <section>
+            <h2>Upload and Enhance Image</h2>
+            <form id="upload-form">
+                <input type="file" name="file" accept="image/*" required>
+                <button type="submit">Enhance</button>
+            </form>
+            <div id="enhanced-image">
+                <!-- Enhanced image will appear here -->
+            </div>
+        </section>
+
+        <!-- Show One Generated Image Section -->
+        <section>
+            <h2>Show Random Generated Image</h2>
+            <button id="show-random-image-btn">Show Random Image</button>
+            <div id="random-image-container">
+                <!-- A random image will be displayed here -->
+            </div>
+        </section>
+
+        <!-- List Generated Images Section -->
+        <section>
+            <h2>View All Generated Images</h2>
+            <button id="list-images-btn">Show All Images</button>
+            <div id="images-list">
+                <!-- List of images will appear here -->
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', async function() {
+            const numImages = document.getElementById('num-images').value;
+            const generatedImagesContainer = document.getElementById('generated-images');
+            generatedImagesContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        'num_images': numImages
+                    })
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    result.image_urls.forEach(url => {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.classList.add('zoomable-img');
+                        generatedImagesContainer.appendChild(img);
+                    });
+                }
+            } catch (error) {
+                console.error('Error generating images:', error);
+            }
+        });
+
+        document.getElementById('show-random-image-btn').addEventListener('click', async function() {
+            const randomImageContainer = document.getElementById('random-image-container');
+            randomImageContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/show-random-image');
+                const img = document.createElement('img');
+                img.src = response.url;
+                img.classList.add('zoomable-img');
+                randomImageContainer.appendChild(img);
+            } catch (error) {
+                console.error('Error fetching random image:', error);
+            }
+        });
+
+        document.getElementById('list-images-btn').addEventListener('click', async function() {
+            const imagesListContainer = document.getElementById('images-list');
+            imagesListContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/list-images');
+                const result = await response.json();
+                result.images.forEach(image => {
+                    const img = document.createElement('img');
+                    img.src = `/generated/${image}`;
+                    img.classList.add('zoomable-img');
+                    imagesListContainer.appendChild(img);
+                });
+            } catch (error) {
+                console.error('Error fetching images list:', error);
+            }
+        });
+    </script>
+</body>
+</html>
