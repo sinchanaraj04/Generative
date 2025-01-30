@@ -20,7 +20,7 @@ Frameworks: PyTorch, Flask, Tkinter
 
 Languages: Python
 
-Dataset: Abstract Art Gallery Dataset
+Dataset:Best Art work of All Time
 
 GAN Model Architecture:
 
@@ -85,19 +85,8 @@ Download Art:
 
 Save your favorite generated artwork locally.
 
-Folder Structure
 
-├── data/                   # Dataset for training
-├── models/                 # Pre-trained GAN models
-├── static/                 # Frontend assets (CSS, JS, images)
-├── templates/              # HTML templates for Flask
-├── app.py                  # Flask web application
-├── desktop_app.py          # Tkinter desktop application
-├── train_gan.py            # GAN training script
-├── README.md               # Project documentation
-└── requirements.txt        # Required Python libraries
-
-Future Enhancements
+Future Enhancements:
 
 Increase resolution of generated images.
 
@@ -105,21 +94,19 @@ Add support for custom style inputs.
 
 Deploy the system on cloud platforms for broader accessibility.
 
-Contributors
+Contributors:
 
 Adwika Thanmaya D
 
-Sinchana B Raj (Lia)
+Sinchana B Raj 
 
 Vatsala D V
 
-License
 
-This project is licensed under the MIT License.
 
 Acknowledgements
 
-Special thanks to the creators of the Abstract Art Gallery Dataset.
+Special thanks to the creators of the Best Artwork Of All Time Dataset.
 
 Inspired by research in generative art and GAN advancements.
 
